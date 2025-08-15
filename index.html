@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<!-- Mirrored from lyrbit-crash.netlify.app/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Aug 2025 22:36:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRASH XBET Predictor PRO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00aaff;
+            --secondary-color: #0a0e17;
+            --accent-color: rgba(22, 27, 41, 0.7);
+            --text-color: #e6f1ff;
+            --green-color: #00e676;
+            --red-color: #ff5252;
+            --telegram-color: #24A1DE;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        #particle-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: -1;
+        }
+        body::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, rgba(13, 27, 42, 0.5) 0%, rgba(10, 14, 23, 1) 70%);
+            z-index: -2;
+        }
+        
+        /* --- Splash & Login Pages --- */
+        .splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--secondary-color);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 1000; transition: opacity 0.8s ease, visibility 0.8s;
+            visibility: visible; opacity: 1;
+        }
+        .splash-screen.hidden { opacity: 0; visibility: hidden; }
+        .splash-screen img { width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--primary-color); box-shadow: 0 0 25px var(--primary-color), 0 0 40px rgba(0, 170, 255, 0.5); animation: pulse 2s infinite ease-in-out; }
+        .splash-screen h1 { font-size: 2.2rem; margin-top: 25px; font-weight: 900; letter-spacing: 3px; color: #fff; }
+        .splash-screen .promo-code { position: absolute; bottom: 40px; font-size: 1.3rem; font-weight: 700; color: var(--primary-color); background-color: rgba(0, 0, 0, 0.3); padding: 12px 24px; border-radius: 12px; border: 1px solid var(--border-color); }
+        @keyframes pulse { 50% { transform: scale(1.05); box-shadow: 0 0 35px var(--primary-color), 0 0 55px rgba(0, 170, 255, 0.7); } }
+        .main-container { width: 100%; max-width: 450px; padding: 20px; z-index: 5; }
+        .page { background-color: var(--accent-color); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color); display: none; animation: fadeIn 0.7s ease-in-out forwards; position: relative; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .language-switcher { position: absolute; top: 15px; left: 15px; display: flex; gap: 8px; }
+        .lang-btn { background-color: rgba(255,255,255,0.1); border: 1px solid var(--border-color); color: var(--text-color); padding: 5px 10px; border-radius: 5px; cursor: pointer; transition: all 0.3s ease; }
+        .lang-btn.active { background-color: var(--primary-color); color: #fff; }
+        html[dir="ltr"] .language-switcher { left: auto; right: 15px; }
+        .page h2 { text-align: center; margin-bottom: 30px; font-size: 2.8rem; font-weight: 900; color: #fff; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 12px; font-weight: 700; }
+        .platform-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .platform-selector input[type="radio"] { display: none; }
+        .platform-selector label { background-color: var(--secondary-color); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
+        .platform-selector input[type="radio"]:checked + label { background-color: var(--primary-color); color: #fff; border-color: #fff; font-weight: 700; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3); }
+        #id-input-container { margin-top: 25px; display: none; }
+        #account-id { width: 100%; padding: 15px; background-color: var(--secondary-color); border: 2px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center; transition: all 0.3s ease; }
+        #account-id:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 10px var(--primary-color); }
+        #country-display { margin-top: 20px; text-align: center; font-size: 1.1rem; min-height: 25px; display: flex; align-items: center; justify-content: center; }
+        .loader { width: 25px; height: 25px; border: 3px solid var(--accent-color); border-top: 3px solid var(--primary-color); border-radius: 50%; display: inline-block; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        #copy-promo-login-btn { width: 100%; padding: 12px; font-size: 1.1rem; font-weight: 700; background-color: transparent; color: var(--primary-color); border: 2px solid var(--primary-color); border-radius: 10px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        #copy-promo-login-btn:hover { background-color: var(--primary-color); color: #fff; }
+        #copy-promo-login-btn svg { width: 20px; height: 20px; }
+        #login-btn { width: 100%; padding: 16px; font-size: 1.3rem; font-weight: 700; background-color: var(--primary-color); color: #fff; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; }
+        #login-btn:disabled { background-color: #2a3040; color: #6a738b; cursor: not-allowed; }
+        #login-btn:not(:disabled):hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 170, 255, 0.4); }
+
+        /* --- Predictor Page & Modal --- */
+        #predictor-page { padding-bottom: 80px; }
+        #predictor-page h2 { font-size: 2rem; margin-bottom: 25px; letter-spacing: 2px; }
+        #prediction-circle { width: 250px; height: 250px; border-radius: 50%; background: radial-gradient(circle at center, #1f2536, #0d1117); box-shadow: inset 0 0 40px rgba(0,0,0,0.8); margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative; border: 2px solid rgba(0, 170, 255, 0.2); }
+        #prediction-circle::before, #prediction-circle::after { content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 3px solid transparent; }
+        #prediction-circle::before { border-top-color: var(--primary-color); border-left-color: var(--primary-color); animation: rotate-arc-1 4s linear infinite; }
+        #prediction-circle::after { border-bottom-color: var(--green-color); border-right-color: var(--green-color); animation: rotate-arc-2 6s linear infinite reverse; }
+        @keyframes rotate-arc-1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotate-arc-2 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        #prediction-dialog { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(16, 20, 31, 0.95); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        #prediction-dialog.visible { opacity: 1; visibility: visible; }
+        #connecting-user-id { margin-top: 8px; font-size: 0.9rem; opacity: 0.8; color: var(--text-color); }
+        #prediction-value { font-size: 4.5rem; font-weight: 700; color: var(--text-color); z-index: 2; transition: color 0.5s ease; text-shadow: none; }
+        #prediction-value.high { color: var(--green-color); }
+        #prediction-value.mid { color: var(--primary-color); }
+        .predictor-buttons { display: flex; gap: 15px; margin: 30px 0; }
+        .predictor-buttons button { flex: 1; padding: 16px; font-size: 1.2rem; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
+        #predict-btn { background: linear-gradient(45deg, var(--green-color), #00c853); color: #fff; }
+        #reset-btn { background: linear-gradient(45deg, var(--red-color), #d50000); color: #fff; }
+        #predict-btn:not(:disabled):hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 25px rgba(0, 230, 118, 0.3); }
+        #reset-btn:not(:disabled):hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 25px rgba(255, 82, 82, 0.3); }
+        .predictor-buttons button:disabled { background: #2a3040; color: #6a738b; cursor: not-allowed; box-shadow: none; transform: none;}
+        #promo-section { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 20px; }
+        #telegram-btn { flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; background: linear-gradient(45deg, var(--telegram-color), #0088cc); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 700; transition: all 0.3s ease; }
+        #telegram-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 25px rgba(36, 161, 222, 0.3); }
+        #telegram-btn svg { width: 24px; height: 24px; }
+        #promo-ad { background-color: rgba(0,0,0,0.25); border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 10px; text-align: center; }
+        #promo-ad span { display: block; font-size: 0.8rem; opacity: 0.7; }
+        #promo-ad strong { font-size: 1.2rem; color: var(--primary-color); letter-spacing: 2px; }
+        .promo-code-container { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 5px; }
+        #copy-promo-btn { background: none; border: none; color: var(--text-color); cursor: pointer; padding: 5px; display: flex; align-items: center; justify-content: center; border-radius: 5px; transition: background-color 0.2s ease; opacity: 0.7; }
+        #copy-promo-btn:hover { opacity: 1; background-color: rgba(255, 255, 255, 0.1); }
+        #history-fab { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: linear-gradient(45deg, var(--primary-color), #0077b3); border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0, 170, 255, 0.4); cursor: pointer; z-index: 998; transition: transform 0.3s ease; }
+        #history-fab:hover { transform: scale(1.1); }
+        html[dir="rtl"] #history-fab { right: auto; left: 25px; }
+        #history-modal, .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 2000;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        #history-modal.visible, .modal-overlay.visible { opacity: 1; visibility: visible; }
+        #history-modal .modal-content, .modal-overlay .modal-content {
+            background-color: #161b29;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 380px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        #history-modal.visible .modal-content, .modal-overlay.visible .modal-content { transform: scale(1); }
+        #history-modal h3 { text-align: center; margin-bottom: 20px; }
+        #close-history-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 2rem; color: var(--text-color); cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+        #close-history-modal:hover { opacity: 1; }
+        html[dir="rtl"] #close-history-modal { right: auto; left: 15px; }
+        #history-log { display: flex; flex-wrap: wrap; gap: 12px; max-height: 250px; overflow-y: auto; justify-content: center; padding: 5px; }
+        .history-item { background-color: #10141f; padding: 8px 16px; font-weight: 700; font-size: 1rem; border: 1px solid var(--border-color); clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%); }
+        .history-item.high { color: var(--green-color); border-color: var(--green-color); }
+        .history-item.mid { color: var(--primary-color); border-color: var(--primary-color); }
+        #custom-alert-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        #custom-alert-message {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        #custom-alert-close {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #custom-alert-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="splash-screen" id="initial-splash">
+        <img src="../i.ibb.co/SXJT9VGR/IMG-20250704-220137-160.jpg" alt="Channel Logo">
+        <h1>CRASH FATHI</h1>
+    </div>
+    <div class="splash-screen hidden" id="loading-splash">
+        <h1 data-translate-key="loggingIn">جاري تسجيل الدخول...</h1>
+        <div class="promo-code" data-translate-key="promoCodeText">البروموكود: FATH3</div>
+    </div>
+    <main class="main-container">
+        <section class="page" id="login-page">
+            <div class="language-switcher">
+                <button class="lang-btn" data-lang="en">EN</button><button class="lang-btn active" data-lang="ar">AR</button>
+            </div>
+            <h2 data-translate-key="title">CRASH XBET</h2>
+            <div class="form-group">
+                <label data-translate-key="selectPlatform">اختر المنصة:</label>
+                <div class="platform-selector">
+                    <input type="radio" id="p-1xbet" name="platform" value="1XBET"><label for="p-1xbet">1XBET</label>
+                    <input type="radio" id="p-melbet" name="platform" value="MELBET"><label for="p-melbet">MELBET</label>
+                </div>
+            </div>
+            <div class="form-group" id="id-input-container">
+                <label for="account-id" data-translate-key="enterIdLabel">سجل ID حسابك:</label>
+                <input type="number" id="account-id" data-translate-key="enterIdPlaceholder" placeholder="الرجاء تسجيل id الاكونت">
+            </div>
+            <div id="country-display"></div>
+            <button id="copy-promo-login-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
+                <span data-translate-key="copyPromoButton">انسخ البروموكود: FATH3</span>
+            </button>
+            <button id="login-btn" data-translate-key="loginButton" disabled>تسجيل الدخول</button>
+        </section>
+
+        <section class="page" id="predictor-page">
+            <h2 data-translate-key="predictionPanel">لوحة التوقعات</h2>
+            <div id="prediction-circle">
+                <div id="prediction-dialog">
+                    <span data-translate-key="connecting">جاري الاتصال بالسيرفر...</span>
+                    <span id="connecting-user-id"></span>
+                    <div class="loader"></div>
+                </div>
+                <span id="prediction-value">1.00x</span>
+            </div>
+            <div class="predictor-buttons">
+                <button id="predict-btn" data-translate-key="showPrediction">Show Prediction</button>
+                <button id="reset-btn" data-translate-key="reset" disabled>Reset</button>
+            </div>
+            <div id="promo-section">
+                <a href="https://t.me/fathidepo333" target="_blank" id="telegram-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.78,18.65l.28,4.23a.75.75,0,0,0,1.4.08l1.57-5.51L17.6,22a.75.75,0,0,0,1.25-.6l4.5-16.13a.75.75,0,0,0-1.08-.83L.83,12.2a.75.75,0,0,0,.1,1.4l5.3,1.65,11-6.6-8.15,7.39Z" fill="#ffffff"></path></svg>
+                    <span data-translate-key="joinTelegram">انضم للقناة</span>
+                </a>
+                <div id="promo-ad">
+                    <span data-translate-key="promoAdText">البروموكود</span>
+                    <div class="promo-code-container">
+                        <strong data-translate-key="promoAdCode">FATH3</strong>
+                        <button id="copy-promo-btn" title="Copy Promo Code">
+                            <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <button id="history-fab" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+    </button>
+    <div id="history-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-history-modal">&times;</button>
+            <h3 data-translate-key="historyTitle">سجل التوقعات</h3>
+            <div id="history-log"></div>
+        </div>
+    </div>
+
+    <div id="custom-alert-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="custom-alert-title"></h3>
+            <p id="custom-alert-message"></p>
+            <button id="custom-alert-close"></button>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const translations = {
+            en: { 
+                title: "CRASH XBET", 
+                selectPlatform: "Select Platform:", 
+                enterIdLabel: "Enter Your Account ID:", 
+                enterIdPlaceholder: "Please enter your account ID", 
+                loginButton: "Login", 
+                loggingIn: "Logging in...", 
+                promoCodeText: "Promo Code: FATH3",
+                predictionPanel: "Prediction Panel",
+                showPrediction: "Show Prediction",
+                reset: "Reset",
+                joinTelegram: "Join Channel",
+                promoAdText: "Promo Code",
+                promoAdCode: "FATH3",
+                historyTitle: "Prediction History",
+                connecting: "Connecting to server...",
+                accountIdText: "Account ID:",
+                connectingToServer: "Connecting to country server...",
+                connectionSuccessful: "Connection Successful!",
+                copyPromoButton: "Copy Promo Code: FATH3",
+                alertTitleSuccess: "Success",
+                promoCopiedSuccess: "Promo code copied to clipboard!",
+                alertTitleError: "Error",
+                promoCopiedError: "Copy failed. Please try again manually.",
+                alertCloseButton: "OK",
+            },
+            ar: {
+                title: "CRASH XBET",
+                selectPlatform: "اختر المنصة:",
+                enterIdLabel: "سجل ID حسابك:",
+                enterIdPlaceholder: "الرجاء تسجيل id الاكونت",
+                loginButton: "تسجيل الدخول",
+                loggingIn: "جاري تسجيل الدخول...",
+                promoCodeText: "البروموكود: FATH3",
+                predictionPanel: "لوحة التوقعات",
+                showPrediction: "عرض التوقع",
+                reset: "إعادة تعيين",
+                joinTelegram: "انضم للقناة",
+                promoAdText: "البروموكود",
+                promoAdCode: "FATH3",
+                historyTitle: "سجل التوقعات",
+                connecting: "جاري الاتصال بالسيرفر...",
+                accountIdText: "معرف الحساب:",
+                connectingToServer: "جاري الاتصال بسيرفير الدولة...",
+                connectionSuccessful: "تم الاتصال بنجاح!",
+                copyPromoButton: "انسخ البروموكود: FATH3",
+                alertTitleSuccess: "نجاح",
+                promoCopiedSuccess: "تم نسخ البروموكود بنجاح!",
+                alertTitleError: "خطأ",
+                promoCopiedError: "فشل النسخ. الرجاء المحاولة يدويًا.",
+                alertCloseButton: "حسنًا",
+            }
+        };
+
+        const PROMO_CODE = 'FATH3';
+        const langBtns = document.querySelectorAll('.lang-btn');
+        const initialSplash = document.getElementById('initial-splash');
+        const loadingSplash = document.getElementById('loading-splash');
+        const loginPage = document.getElementById('login-page');
+        const predictorPage = document.getElementById('predictor-page');
+        const platformRadios = document.querySelectorAll('input[name="platform"]');
+        const idInputContainer = document.getElementById('id-input-container');
+        const accountIdInput = document.getElementById('account-id');
+        const countryDisplay = document.getElementById('country-display');
+        const loginBtn = document.getElementById('login-btn');
+        const predictBtn = document.getElementById('predict-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const predictionValue = document.getElementById('prediction-value');
+        const predictionDialog = document.getElementById('prediction-dialog');
+        const connectingUserIdSpan = document.getElementById('connecting-user-id');
+        const historyFab = document.getElementById('history-fab');
+        const historyModal = document.getElementById('history-modal');
+        const closeHistoryModal = document.getElementById('close-history-modal');
+        const historyLog = document.getElementById('history-log');
+        const copyPromoLoginBtn = document.getElementById('copy-promo-login-btn');
+        const copyPromoPredictorBtn = document.getElementById('copy-promo-btn');
+        const customAlertModal = document.getElementById('custom-alert-modal');
+        const customAlertTitle = document.getElementById('custom-alert-title');
+        const customAlertMessage = document.getElementById('custom-alert-message');
+        const customAlertClose = document.getElementById('custom-alert-close');
+
+        let currentLang = 'ar';
+        let platformSelected = false;
+        let validIdEntered = false;
+        let connectionState = 'idle';
+        let userAccountId = '';
+        let animationFrameId = null;
+        
+        function showCustomAlert(title, message) {
+            customAlertTitle.textContent = title;
+            customAlertMessage.textContent = message;
+            customAlertClose.textContent = translations[currentLang].alertCloseButton;
+            customAlertModal.classList.add('visible');
+        }
+
+        function hideCustomAlert() {
+            customAlertModal.classList.remove('visible');
+        }
+        
+        function handleCopyPromo() {
+            const textToCopy = PROMO_CODE;
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showCustomAlert(translations[currentLang].alertTitleSuccess, translations[currentLang].promoCopiedSuccess);
+                }).catch(err => {
+                    console.error('Modern copy failed, trying fallback:', err);
+                    fallbackCopyTextToClipboard(textToCopy);
+                });
+            } else {
+                console.warn('Clipboard API not available, using fallback.');
+                fallbackCopyTextToClipboard(textToCopy);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "-9999px";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCustomAlert(translations[currentLang].alertTitleSuccess, translations[currentLang].promoCopiedSuccess);
+                } else {
+                    showCustomAlert(translations[currentLang].alertTitleError, translations[currentLang].promoCopiedError);
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                showCustomAlert(translations[currentLang].alertTitleError, translations[currentLang].promoCopiedError);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            langBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            document.querySelectorAll('[data-translate-key]').forEach(element => {
+                const key = element.dataset.translateKey;
+                if (translations[currentLang][key]) {
+                    if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
+                        element.setAttribute('placeholder', translations[currentLang][key]);
+                    } else {
+                        element.textContent = translations[currentLang][key];
+                    }
+                }
+            });
+            if (connectionState === 'connecting') {
+                countryDisplay.innerHTML = `<span>${translations[currentLang].connectingToServer}</span> <div class="loader" style="margin: 0 5px;"></div>`;
+            } else if (connectionState === 'connected') {
+                 countryDisplay.innerHTML = `<span style="color: var(--green-color);">${translations[currentLang].connectionSuccessful}</span>`;
+            }
+        }
+
+        function updateLoginButtonState() {
+            loginBtn.disabled = !(platformSelected && validIdEntered && connectionState === 'connected');
+        }
+        
+        function connectToServer() {
+            connectionState = 'connecting';
+            countryDisplay.innerHTML = `<span>${translations[currentLang].connectingToServer}</span> <div class="loader" style="margin: 0 5px;"></div>`;
+            updateLoginButtonState();
+            setTimeout(() => {
+                connectionState = 'connected';
+                countryDisplay.innerHTML = `<span style="color: var(--green-color);">${translations[currentLang].connectionSuccessful}</span>`;
+                updateLoginButtonState();
+            }, 2000);
+        }
+
+        function animateNumber(start, end, duration) { 
+            cancelAnimationFrame(animationFrameId);
+            predictionValue.classList.remove('high', 'mid');
+            const range = end - start;
+            let startTime = null;
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                const currentValue = start + range * progress;
+                predictionValue.textContent = `${currentValue.toFixed(2)}x`;
+                if (progress < 1) {
+                    animationFrameId = requestAnimationFrame(step);
+                } else {
+                    predictionValue.textContent = `${end.toFixed(2)}x`;
+                    if (end >= 2.35) predictionValue.classList.add('high');
+                    else if (end >= 1.88) predictionValue.classList.add('mid');
+                    predictBtn.disabled = false;
+                    resetBtn.disabled = false;
+                }
+            }
+            animationFrameId = requestAnimationFrame(step);
+        }
+
+        function addToHistory(valueStr) { 
+            const item = document.createElement('div');
+            const valueNum = parseFloat(valueStr);
+            item.className = 'history-item';
+            item.textContent = valueStr;
+            if (valueNum >= 2.35) item.classList.add('high');
+            else if (valueNum >= 1.88) item.classList.add('mid');
+            historyLog.prepend(item);
+            if (historyLog.children.length > 20) {
+                historyLog.lastChild.remove();
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        langBtns.forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
+        setTimeout(() => { initialSplash.classList.add('hidden'); setTimeout(() => loginPage.classList.add('active'), 800); }, 4000);
+        platformRadios.forEach(radio => { radio.addEventListener('change', () => { platformSelected = true; idInputContainer.style.display = 'block'; accountIdInput.focus(); updateLoginButtonState(); }); });
+        
+        accountIdInput.addEventListener('input', () => { 
+            const id = accountIdInput.value; 
+            if (id.length >= 8 && id.length <= 13) { 
+                if (connectionState === 'idle') connectToServer();
+                validIdEntered = true; 
+            } else { 
+                validIdEntered = false; 
+                connectionState = 'idle'; 
+                countryDisplay.innerHTML = ''; 
+            } 
+            updateLoginButtonState(); 
+        });
+        
+        loginBtn.addEventListener('click', () => {
+            userAccountId = accountIdInput.value;
+            loginPage.classList.remove('active'); loadingSplash.classList.remove('hidden');
+            setTimeout(() => {
+                loadingSplash.classList.add('hidden');
+                setTimeout(() => {
+                    predictorPage.classList.add('active');
+                    historyFab.style.display = 'flex';
+                    initParticles();
+                }, 800);
+            }, 3000);
+        });
+
+        predictBtn.addEventListener('click', () => {
+            predictBtn.disabled = true; resetBtn.disabled = true;
+            const accountIdText = translations[currentLang].accountIdText || 'Account ID:';
+            connectingUserIdSpan.textContent = `${accountIdText} ${userAccountId}`;
+            predictionDialog.classList.add('visible');
+            setTimeout(() => {
+                predictionDialog.classList.remove('visible');
+                let prediction; const randomChance = Math.random();
+                if (randomChance < 0.50) { prediction = Math.random() * (1.88 - 1.09) + 1.09; } 
+                else if (randomChance < 0.85) { prediction = Math.random() * (2.35 - 1.88) + 1.88; } 
+                else { prediction = Math.random() * (3.88 - 2.35) + 2.35; }
+                animateNumber(1.00, prediction, 900); // MODIFIED: Changed duration to 900ms
+                addToHistory(`${prediction.toFixed(2)}x`);
+            }, 1000);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            const currentValue = parseFloat(predictionValue.textContent);
+            if (currentValue === 1.00) return;
+            predictBtn.disabled = true; resetBtn.disabled = true;
+            animateNumber(currentValue, 1.00, 900); // MODIFIED: Changed duration to 900ms for consistency
+        });
+        
+        copyPromoLoginBtn.addEventListener('click', handleCopyPromo);
+        copyPromoPredictorBtn.addEventListener('click', handleCopyPromo);
+        
+        customAlertClose.addEventListener('click', hideCustomAlert);
+        customAlertModal.addEventListener('click', (e) => {
+            if (e.target === customAlertModal) {
+                hideCustomAlert();
+            }
+        });
+
+        historyFab.addEventListener('click', () => historyModal.classList.add('visible'));
+        closeHistoryModal.addEventListener('click', () => historyModal.classList.remove('visible'));
+        historyModal.addEventListener('click', (e) => { if (e.target === historyModal) {
+            historyModal.classList.remove('visible');
+        }});
+
+        const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d'); let particlesArray;
+        function initParticles() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; particlesArray = []; let n = (canvas.height * canvas.width) / 9000; for (let i=0; i<n; i++){ let size = (Math.random()*2)+1; let x = (Math.random()*((innerWidth-size*2)-(size*2))+size*2); let y = (Math.random()*((innerHeight-size*2)-(size*2))+size*2); let dx = (Math.random()*.4)-.2; let dy = (Math.random()*.4)-.2; particlesArray.push({x,y,dx,dy,size,color:'rgba(0,170,255,0.5)'}); } animateParticles(); }
+        function animateParticles() { requestAnimationFrame(animateParticles); ctx.clearRect(0,0,innerWidth, innerHeight); for(let i=0; i<particlesArray.length; i++){ let p=particlesArray[i]; p.x+=p.dx; p.y+=p.dy; if(p.x+p.size>canvas.width||p.x-p.size<0) p.dx=-p.dx; if(p.y+p.size>canvas.height||p.y-p.size<0) p.dy=-p.dy; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2, false); ctx.fillStyle=p.color; ctx.fill(); }}
+        window.addEventListener('resize', initParticles);
+
+        setLanguage(currentLang);
+    });
+    </script>
+</body>
+
+<!-- Mirrored from FATH3-crash.netlify.app/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Aug 2025 22:36:38 GMT -->
+</html>
